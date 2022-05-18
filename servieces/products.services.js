@@ -21,7 +21,7 @@ async function createProduct(params, callback) {
     });
 }
 
-async function getProduct(params, callback) {
+async function getProducts(params, callback) {
   const productName = params.productName;
   var condition = productName
     ? {
@@ -67,3 +67,25 @@ async function updateProduct(params, callback) {
       return callback(err);
     });
 }
+
+async function deleteProduct(params, callback) {
+  const productId = params.productId;
+
+  productModel
+    .findByAndRemove(productId)
+    .then((response) => {
+      if (!response) callback("product Id Invalid");
+      else return callback(null, response);
+    })
+    .catch((err) => {
+      return callback(err);
+    });
+}
+
+module.exports = {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+};
